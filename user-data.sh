@@ -156,9 +156,9 @@ fi
 
 }
 
-REGION=$(curl -s 169.254.169.254/latest/dynamic/instance-identity/document | jq -r ".region")
 
 platformize
 installdep
+REGION=$(curl -s 169.254.169.254/latest/dynamic/instance-identity/document | jq -r ".region")
 mapBucket ${REGION}
 execute
