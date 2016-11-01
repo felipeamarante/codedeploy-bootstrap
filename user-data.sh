@@ -131,15 +131,21 @@ if [ ${PLAT} = "ubuntu" ]; then
 
   cd /home/ubuntu
 
-  aws s3 cp s3://${BUCKETNAME}/latest/install . --region ${REGION}
+  wget https://${BUCKETNAME}.s3.amazonaws.com/latest/install
   chmod +x ./install
-  ./install auto
+  if ./install auto; then
+    echo "Instalation Completed"
+    exit 0
+  else
+    echo "Instalation Script Failed, please investigate"
+    exit 1
+  fi
 
 elif [ ${PLAT} = "amz" ]; then
 
   cd /home/ec2-user
 
-  aws s3 cp s3://${BUCKETNAME}/latest/install . --region ${REGION}
+  wget https://${BUCKETNAME}.s3.amazonaws.com/latest/install
   chmod +x ./install
 
     if ./install auto; then
