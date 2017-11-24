@@ -49,8 +49,7 @@ function execute(){
 
 if [ ${PLAT} = "ubuntu" ]; then
 
-  cd /home/ubuntu
-
+  cd /tmp/
   wget https://aws-codedeploy-${REGION}.s3.amazonaws.com/latest/install
   chmod +x ./install
 
@@ -60,17 +59,18 @@ if [ ${PLAT} = "ubuntu" ]; then
             echo "Disabling Auto Update"
             sed -i '/@reboot/d' /etc/cron.d/codedeploy-agent-update
             chattr +i /etc/cron.d/codedeploy-agent-update
+            rm -f /tmp/install
       fi
     exit 0
   else
     echo "Instalation Script Failed, please investigate"
+    rm -f /tmp/install
     exit 1
   fi
 
 elif [ ${PLAT} = "amz" ]; then
 
-  cd /home/ec2-user
-
+  cd /tmp/
   wget https://aws-codedeploy-${REGION}.s3.amazonaws.com/latest/install
   chmod +x ./install
 
@@ -80,10 +80,12 @@ elif [ ${PLAT} = "amz" ]; then
             echo "Disabling Auto Update"
             sed -i '/@reboot/d' /etc/cron.d/codedeploy-agent-update
             chattr +i /etc/cron.d/codedeploy-agent-update
+            rm -f /tmp/install
         fi
       exit 0
     else
       echo "Instalation Script Failed, please investigate"
+      rm -f /tmp/install
       exit 1
     fi
 
